@@ -61,41 +61,48 @@ var inputData = {
       }
   ],
   "maxPower": 2100
-}
-
-
-
-// console.log(devices, rates, maxPower);
+};
 
 function makeSchedule(inputData) {
   var devices = inputData.devices,
       rates = inputData.rates,
       maxPower = inputData.maxPower;
 
-  // var day = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-  //     night = [21, 22, 23, 0, 1, 2, 3, 4, 5, 6];
-
-  devices = devices.sort( (a, b) => b.power - a.power );
-  // console.log(devices.forEach( (el) => console.log(el.name) ));
+  devices = devices.sort( (a, b) => {
+    if ( (a.mode !== undefined && b.mode !== undefined) || (a.mode === undefined && b.mode === undefined) ) {
+      return a.power < b.power;
+    } else if (a.mode === undefined && b.mode !== undefined) {
+      return 1;
+    } else {
+      return -1;
+    }
+  } );
 
   rates.sort( (a, b) => a.value - b.value );
-  // console.log(rates.forEach( (el) => console.log(el.value) ));
 
   var schedule = {};
   for (i = 0; i < 24; i++) {
     schedule[i] = [];
   }
 
-  devices.forEach( (device) => {
+  devices.forEach(device => {
+    var i = 0;
     while (device.duration > 0) {
-      if ( schedule[rates[0].from].reduce( (sum, current) => {return sum + current;}, 0 ) + device.duration <= maxPower ) {
-        schedule[rates[0].from].push(device);
-      } else {
-        schedule[(rates[0].from + 1 < 24) ? rates[0].from + 1 : rates[0].from + 1 - 24].push(device);
-      }
-      device.duration -= 1;
+      
     }
-  } );
+
+  });
+
+  // devices.forEach( (device) => {
+  //   while (device.duration > 0) {
+  //     if ( schedule[rates[0].from].reduce( (sum, current) => {return sum + current;}, 0 ) + device.duration <= maxPower ) {
+  //       schedule[rates[0].from].push(device);
+  //     } else {
+  //       schedule[(rates[0].from + 1 < 24) ? rates[0].from + 1 : rates[0].from + 1 - 24].push(device);
+  //     }
+  //     device.duration -= 1;
+  //   }
+  // } );
 
 
 
