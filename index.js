@@ -68,6 +68,11 @@ function makeSchedule(inputData) {
       rates = inputData.rates,
       maxPower = inputData.maxPower;
 
+  var dayOrNight = ['night', 'night', 'night', 'night', 'night', 'night', 'night', 
+                    'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day','day', 'day','day',
+                    'night', 'night', 'night'];
+
+
   devices = devices.sort( (a, b) => {
     if ( (a.mode !== undefined && b.mode !== undefined) || (a.mode === undefined && b.mode === undefined) ) {
       return a.power < b.power;
@@ -88,7 +93,12 @@ function makeSchedule(inputData) {
   devices.forEach(device => {
     var i = 0;
     while (device.duration > 0) {
-      
+      var currentMaxPower = schedule[i].reduce( () => (sum, current) => {return sum + current;}, 0 );
+      if (dayOrNight[rates[i].from] === device.mode && currentMaxPower <= maxPower) {
+        schedule[i].push[device.id];
+        device.duration -= 1;
+      }
+      i++;
     }
 
   });
