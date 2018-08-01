@@ -149,8 +149,8 @@ function makeSchedule(inputData) {
     consumedEnergy.devices[key] = Math.round(consumedEnergy.devices[key] * 10000) / 10000;
   }
 
-  var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
-  return outputData;
+  var outputData = {schedule: schedule, consumedEnergy: consumedEnergy};
+  return JSON.stringify(outputData);
 }
 
 console.log(makeSchedule(inputData));
