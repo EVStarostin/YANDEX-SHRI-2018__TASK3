@@ -6,19 +6,19 @@ function findObjectInArrayById(array, id) {
   }
 }
 
-function condition(rate, i) {
+function condition(rate, hour) {
   var MAX_NUMBER = 24;
   if (rate.from > rate.to) {
-    return i >= rate.from && i < MAX_NUMBER || i < rate.to;
+    return hour >= rate.from && hour < MAX_NUMBER || hour < rate.to;
   } else {
-    return i < rate.to;
+    return hour < rate.to;
   }
 }
 
-function step(i) {
+function step(hour) {
   var MAX_NUMBER = 24;
-  if (++i < 24) {
-    return i++
+  if (++hour < 24) {
+    return hour++
   } else {
     return 0;
   }
@@ -117,20 +117,21 @@ function makeSchedule(inputData) {
   var consumedEnergy = {value: 0, devices: {}};
 
   devices.forEach( device => {
-      for (rate of rates) {
+    for (rate of rates) {
+      if (device.duration === 0) break;
+      for (var hour = rate.from; condition(rate, hour); hour = step(hour)) {
         if (device.duration === 0) break;
-        for (var i = rate.from; condition(rate, i); i = step(i)) {
-          if (device.duration === 0) break;
-          if (device.mode && device.mode !== dayOrNight[i]) continue;
-          var devicesPower = schedule[i].reduce( (sum, currentID) => {return sum + findObjectInArrayById(devices, currentID).power;}, 0 );
-          if (devicesPower + device.power > maxPower) continue;
-          schedule[i].push(device.id);
-          consumedEnergy.value += findObjectInArrayById(devices, device.id).power;
-          consumedEnergy.devices[device.id] = consumedEnergy.devices[device.id] === undefined ? 
-          findObjectInArrayById(devices, device.id).power : consumedEnergy.devices[device.id] + findObjectInArrayById(devices, device.id).power;
-          device.duration -= 1;
-        }
-      }   
+        if (device.mode && device.mode !== dayOrNight[hour]) continue;
+        var devicesPower = schedule[hour].reduce( (sum, currentID) => {return sum + findObjectInArrayById(devices, currentID).power;}, 0 );
+        if (devicesPower + device.power > maxPower) continue;
+        schedule[hour].push(device.id);
+        consumedEnergy.value += findObjectInArrayById(devices, device.id).power;
+        consumedEnergy.devices[device.id] = consumedEnergy.devices[device.id] === undefined ? 
+          findObjectInArrayById(devices, device.id).power : 
+          consumedEnergy.devices[device.id] + findObjectInArrayById(devices, device.id).power;
+        device.duration -= 1;
+      }
+    }   
   } );
 
 var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
