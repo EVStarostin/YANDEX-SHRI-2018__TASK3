@@ -127,9 +127,7 @@ function makeSchedule(inputData) {
 
   devices.forEach( device => {
     for (rate of rates) {
-      if (device.duration === 0) break;
       for (var hour = rate.from; condition(rate, hour); hour = step(hour)) {
-        if (device.duration === 0) break;
         var devicesPower = schedule[hour].reduce( (sum, currentID) => {return sum + findObjectInArrayById(devices, currentID).power;}, 0 );
         if (device.mode && device.mode !== dayOrNight[hour] || devicesPower + device.power > maxPower) continue;
         schedule[hour].push(device.id);
@@ -138,7 +136,9 @@ function makeSchedule(inputData) {
           findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour) : 
           consumedEnergy.devices[device.id] + findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour);
         device.duration -= 1;
+        if (device.duration === 0) break;
       }
+      if (device.duration === 0) break;
     }
   } );
 
