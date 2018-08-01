@@ -49,7 +49,7 @@ function makeSchedule(inputData) {
   }
 
   var outputData = {schedule: schedule, consumedEnergy: consumedEnergy};
-  return JSON.stringify(outputData);
+  return JSON.stringify(outputData, "", 2);
 }
 
 module.exports = makeSchedule;
