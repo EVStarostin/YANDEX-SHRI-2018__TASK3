@@ -1,3 +1,29 @@
+// Функция для нахождения объекта в массиве по id
+// Первым аргументом получает массив: array<{}>, вторым id: string
+function findObjectInArrayById(array, id) {
+  for (obj of array) {
+    if (obj.id === id) return obj;
+  }
+}
+
+function condition(rate, i) {
+  var MAX_NUMBER = 24;
+  if (rate.from > rate.to) {
+    return i >= rate.from && i < MAX_NUMBER || i < rate.to;
+  } else {
+    return i < rate.to;
+  }
+}
+
+function step(i) {
+  var MAX_NUMBER = 24;
+  if (++i < 24) {
+    return i++
+  } else {
+    return 0;
+  }
+}
+
 var inputData = {
   "devices": [
       {
@@ -85,40 +111,29 @@ function makeSchedule(inputData) {
   rates.sort( (a, b) => a.value - b.value );
 
   var schedule = {};
-  for (i = 0; i < 24; i++) {
+  for (var i = 0; i < 24; i++) {
     schedule[i] = [];
   }
+  var consumedEnergy = {value: 0, devices: {}};
 
-  devices.forEach(device => {
-    var i = 0;
-    while (device.duration > 0) {
-      var currentMaxPower = schedule[i].reduce( (sum, current) => {return sum + current.power;}, 0 );
-      // if (dayOrNight[rates[i].from] === device.mode && currentMaxPower <= maxPower) {
-      if (currentMaxPower + device.power <= maxPower) {
-        schedule[i].push({id: device.id, power: device.power});
-        device.duration -= 1;
-      }
-      i++;
-    }
+  devices.forEach( device => {
+      for (rate of rates) {
+        if (device.duration === 0) break;
+        for (var i = rate.from; condition(rate, i); i = step(i)) {
+          if (device.duration === 0) break;
+          if (device.mode && device.mode !== dayOrNight[i]) continue;
+          var devicesPower = schedule[i].reduce( (sum, currentID) => {return sum + findObjectInArrayById(devices, currentID).power;}, 0 );
+          if (devicesPower + device.power > maxPower) continue;
+          schedule[i].push(device.id);
+          consumedEnergy.value += findObjectInArrayById(devices, device.id).power;
+          consumedEnergy.devices[device.id] = consumedEnergy.devices[device.id] === undefined ? 
+          findObjectInArrayById(devices, device.id).power : consumedEnergy.devices[device.id] + findObjectInArrayById(devices, device.id).power;
+          device.duration -= 1;
+        }
+      }   
+  } );
 
-  });
-
-  // devices.forEach( (device) => {
-  //   while (device.duration > 0) {
-  //     if ( schedule[rates[0].from].reduce( (sum, current) => {return sum + current;}, 0 ) + device.duration <= maxPower ) {
-  //       schedule[rates[0].from].push(device);
-  //     } else {
-  //       schedule[(rates[0].from + 1 < 24) ? rates[0].from + 1 : rates[0].from + 1 - 24].push(device);
-  //     }
-  //     device.duration -= 1;
-  //   }
-  // } );
-
-
-
-
-
-var outputData = JSON.stringify({schedule: schedule});
+var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
 
 return outputData;
 
