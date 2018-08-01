@@ -132,9 +132,11 @@ function makeSchedule(inputData) {
         if (device.mode && device.mode !== dayOrNight[hour] || devicesPower + device.power > maxPower) continue;
         schedule[hour].push(device.id);
         consumedEnergy.value += findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour);
-        consumedEnergy.devices[device.id] = consumedEnergy.devices[device.id] === undefined ? 
-          findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour) : 
-          consumedEnergy.devices[device.id] + findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour);
+        if (consumedEnergy.devices[device.id] === undefined) {
+          consumedEnergy.devices[device.id] = findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour);
+        } else {
+          consumedEnergy.devices[device.id] += findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour);
+        }
         device.duration -= 1;
         if (device.duration === 0) break;
       }
