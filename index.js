@@ -151,7 +151,4 @@ function makeSchedule(inputData) {
   return outputData;
 }
 
-
-
 console.log(makeSchedule(inputData));
-// makeSchedule(inputData);
