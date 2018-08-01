@@ -150,7 +150,7 @@ function makeSchedule(inputData) {
   }
 
   var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
-  return JSON.stringify(outputData);
+  return outputData;
 }
 
 console.log(makeSchedule(inputData));
