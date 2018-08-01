@@ -19,6 +19,13 @@
   },
   "homepage": "https://github.com/EVStarostin/YANDEX-SHRI-2018__TASK3#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^5.2.0",
+    "eslint-config-standard": "^12.0.0-alpha.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "mocha": "^5.2.0"
   }
 }
