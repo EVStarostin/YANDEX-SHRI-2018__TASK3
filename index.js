@@ -134,15 +134,9 @@ function makeSchedule(inputData) {
     }   
   } );
 
-var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
+  var outputData = JSON.stringify({schedule: schedule, consumedEnergy: consumedEnergy});
+  return outputData;
 
-return outputData;
-
-
-
-// schedule[rates[0].from] = [devices[0].id];
-// devices[0].duration -= 1;
-// console.log(JSON.stringify(schedule));
 }
 
 
