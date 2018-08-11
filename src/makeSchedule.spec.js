@@ -1,5 +1,5 @@
-var makeSchedule = require('./src/makeSchedule')
-var inputData = require('./jsons/input.json')
+var makeSchedule = require('./makeSchedule')
+var inputData = require('../jsons/input.json')
 
 // var assert = require('assert');
 var assert = require('chai').assert
