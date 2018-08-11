@@ -51,10 +51,16 @@ function getRateValue (rates, hour) {
 Возвращает расписание работы устройств, стоимость общей потребленной энергии и с разбивкой по устройствам */
 function makeSchedule (inputData) {
   let devices = inputData.devices
-
   const rates = inputData.rates
-
   const maxPower = inputData.maxPower
+
+  if (
+    !Array.isArray(devices) ||
+    !Array.isArray(rates) ||
+    !(!isNaN(parseFloat(maxPower)) && isFinite(maxPower))
+  ) {
+    throw new Error()
+  }
 
   devices = devices.sort((a, b) => {
     if ((a.mode !== undefined && b.mode !== undefined) || (a.mode === undefined && b.mode === undefined)) {
