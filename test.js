@@ -6,7 +6,7 @@ var assert = require('chai').assert
 describe('consumedEnergy', function () {
   describe('value', function () {
     it('should be is less than or equal to 38.939', function () {
-      assert.isAtMost(JSON.parse(makeSchedule(inputData)).consumedEnergy.value, 38.939)
+      assert.isAtMost(makeSchedule(inputData).consumedEnergy.value, 38.939)
     })
   })
 })
