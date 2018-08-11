@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./src/**/*.spec.js",
     "start": "node ./src/index.js",
+    "test": "mocha ./src/**/*.spec.js",
     "eslint": "./node_modules/.bin/eslint ./src/**/*.js --fix"
   },
   "repository": {
