@@ -32,8 +32,8 @@
       "power": 850,
       "duration": 1
     }
-],
-"rates": [
+  ],
+  "rates": [
     {
       "from": 7,
       "to": 10,
