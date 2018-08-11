@@ -1,6 +1,6 @@
 // Константы
-var MAX_HOUR = 24
-var DAY_OR_NIGHT = [
+const MAX_HOUR = 24
+const DAY_OR_NIGHT = [
   'night', 'night', 'night', 'night', 'night', 'night', 'night',
   'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day',
   'night', 'night', 'night'
@@ -9,7 +9,7 @@ var DAY_OR_NIGHT = [
 /* Функция для нахождения объекта в массиве по id
 Первым аргументом получает массив: array<{}>, вторым id: string */
 function findObjectInArrayById (array, id) {
-  for (var obj of array) {
+  for (let obj of array) {
     if (obj.id === id) return obj
   }
 }
@@ -39,7 +39,7 @@ function step (hour) {
 На вход принимает час, стоимость которого нужно определить и список тарифов
 На выходе возвращает стоимость часа */
 function getRateValue (rates, hour) {
-  for (var rate of rates) {
+  for (let rate of rates) {
     if (condition(rate, hour)) {
       return rate.value / 1000
     }
@@ -50,11 +50,11 @@ function getRateValue (rates, hour) {
 Принимает объект с списоком устройств, тарифы и максимальную мощность в час
 Возвращает расписание работы устройств, стоимость общей потребленной энергии и с разбивкой по устройствам */
 function makeSchedule (inputData) {
-  var devices = inputData.devices
+  let devices = inputData.devices
 
-  var rates = inputData.rates
+  const rates = inputData.rates
 
-  var maxPower = inputData.maxPower
+  const maxPower = inputData.maxPower
 
   devices = devices.sort((a, b) => {
     if ((a.mode !== undefined && b.mode !== undefined) || (a.mode === undefined && b.mode === undefined)) {
@@ -68,16 +68,16 @@ function makeSchedule (inputData) {
 
   rates.sort((a, b) => a.value - b.value)
 
-  var schedule = {}
-  for (var i = 0; i < 24; i++) {
+  const schedule = {}
+  for (let i = 0; i < 24; i++) {
     schedule[i] = []
   }
-  var consumedEnergy = {value: 0, devices: {}}
+  const consumedEnergy = {value: 0, devices: {}}
 
   devices.forEach(device => {
-    for (var rate of rates) {
-      for (var hour = rate.from; condition(rate, hour); hour = step(hour)) {
-        var devicesPower = schedule[hour].reduce((sum, currentID) => { return sum + findObjectInArrayById(devices, currentID).power }, 0)
+    for (let rate of rates) {
+      for (let hour = rate.from; condition(rate, hour); hour = step(hour)) {
+        const devicesPower = schedule[hour].reduce((sum, currentID) => { return sum + findObjectInArrayById(devices, currentID).power }, 0)
         if ((device.mode && device.mode !== DAY_OR_NIGHT[hour]) || devicesPower + device.power > maxPower) continue
         schedule[hour].push(device.id)
         consumedEnergy.value += findObjectInArrayById(devices, device.id).power * getRateValue(rates, hour)
@@ -94,11 +94,11 @@ function makeSchedule (inputData) {
   })
 
   consumedEnergy.value = Math.round(consumedEnergy.value * 10000) / 10000
-  for (var key in consumedEnergy.devices) {
+  for (let key in consumedEnergy.devices) {
     consumedEnergy.devices[key] = Math.round(consumedEnergy.devices[key] * 10000) / 10000
   }
 
-  var outputData = {schedule: schedule, consumedEnergy: consumedEnergy}
+  const outputData = {schedule: schedule, consumedEnergy: consumedEnergy}
   return outputData;
 }
 
