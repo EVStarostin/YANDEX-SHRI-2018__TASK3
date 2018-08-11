@@ -4,7 +4,7 @@ const DAY_OR_NIGHT = [
   'night', 'night', 'night', 'night', 'night', 'night', 'night',
   'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day',
   'night', 'night', 'night'
-];
+]
 
 /* Функция для нахождения объекта в массиве по id
 Первым аргументом получает массив: array<{}>, вторым id: string */
@@ -25,7 +25,7 @@ function condition (rate, hour) {
   }
 }
 
-/* Функция увеличения счетчика. 
+/* Функция увеличения счетчика.
 Если следущее значение счетчика больше 23, то счетчик обнуляется  */
 function step (hour) {
   if (++hour < MAX_HOUR) {
@@ -99,7 +99,7 @@ function makeSchedule (inputData) {
   }
 
   const outputData = {schedule: schedule, consumedEnergy: consumedEnergy}
-  return outputData;
+  return outputData
 }
 
 module.exports = makeSchedule
