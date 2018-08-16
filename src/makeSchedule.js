@@ -8,31 +8,31 @@ const DAY_OR_NIGHT = [
   'night', 'night', 'night'
 ]
 
-/**
+ /**
  * Описание типа объекта устройство
- * @typedef device
- * @type {object}
- * @property {string} id ID
- * @property {string} name название
- * @property {number} power потребляемая мощность
- * @property {number} duration продолжительность цикла работы в часах
- * @property {string} mode работает днем или ночью ('day'|'night')
+ * @typedef {{id: string, name: string, power: number, duration: number, mode: string}} IDevice
  */
 
-/**
+ /**
  * Описание типа объекта тариф
- * @typedef rate
- * @type {object}
- * @property {number} from время начала действия тарифа
- * @property {number} to время окончания действия тарифа
- * @property {number} value стоимость электроэнергии
+ * @typedef {{from: number, to: number, value: number}} IRate
+ */
+
+ /**
+ * Описание типа объекта расписание
+ * @typedef {{[hour: string]: string[]}} ISchedule
+ */
+
+ /**
+ * Описание типа объекта потребленная электроэнергия
+ * @typedef {{value: number, devices: {[id: string]: number}}} IConsumedEnergy
  */
 
 /**
  * Возвращает найденное устройство в массиве
- * @param {device[]} array массив, в котором выполняется поиск
+ * @param {IDevice[]} array массив, в котором выполняется поиск
  * @param {string} id ID устройства, которое нужно найти
- * @returns {device} найденное устройство
+ * @returns {IDevice} найденное устройство
  */
 function findObjectInArrayById (array, id) {
   for (let obj of array) {
@@ -42,7 +42,7 @@ function findObjectInArrayById (array, id) {
 
 /**
  * Возвращает true, если час входит в промежуток действия тарифа, false в противном случае
- * @param {rate} rate тариф
+ * @param {IRate} rate тариф
  * @param {number} hour час
  * @returns {boolean}
  */
@@ -70,7 +70,7 @@ function step (hour) {
 
 /**
  * Возвращает стоимость часа
- * @param {rate[]} rates массив тарифов
+ * @param {IRate[]} rates массив тарифов
  * @param {number} hour час
  * @returns {number}
  */
@@ -84,8 +84,8 @@ function getRateValue (rates, hour) {
 
 /**
  * Рассчитывает и возвращает расписание работы устройств
- * @param {{devices: device[], rates: rate[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
- * @returns {} расписание работы устройств, стоимость потребленной электроэнергии по устройствам и общая
+ * @param {{devices: IDevice[], rates: IRate[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
+ * @returns {{schedule: ISchedule, consumedEnergy: IConsumedEnergy}} расписание работы устройств, стоимость потребленной электроэнергии по устройствам и общая
  */
 function makeSchedule (inputData) {
   const devices = inputData.devices.map((obj) => Object.assign({}, obj))
