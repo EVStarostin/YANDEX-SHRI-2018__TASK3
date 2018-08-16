@@ -8,22 +8,22 @@ const DAY_OR_NIGHT = [
   'night', 'night', 'night'
 ]
 
- /**
+/**
  * Описание типа объекта устройство
  * @typedef {{id: string, name: string, power: number, duration: number, mode: string}} IDevice
  */
 
- /**
+/**
  * Описание типа объекта тариф
  * @typedef {{from: number, to: number, value: number}} IRate
  */
 
- /**
+/**
  * Описание типа объекта расписание
  * @typedef {{[hour: string]: string[]}} ISchedule
  */
 
- /**
+/**
  * Описание типа объекта потребленная электроэнергия
  * @typedef {{value: number, devices: {[id: string]: number}}} IConsumedEnergy
  */
