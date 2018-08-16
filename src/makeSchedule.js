@@ -1,22 +1,31 @@
-// Константы
+/** @constant {number} */
 const MAX_HOUR = 24
+
+/** @constant {string[]} */
 const DAY_OR_NIGHT = [
   'night', 'night', 'night', 'night', 'night', 'night', 'night',
   'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day',
   'night', 'night', 'night'
 ]
 
-/* Функция для нахождения объекта в массиве по id
-Первым аргументом получает массив: array<{}>, вторым id: string */
+/**
+ * Возвращает найденное устройство в массиве
+ * @param {Object[]} array массив, в котором выполняется поиск
+ * @param {string} id ID устройства, которое нужно найти
+ * @returns {Object} найденное устройство
+ */
 function findObjectInArrayById (array, id) {
   for (let obj of array) {
     if (obj.id === id) return obj
   }
 }
 
-/* Проверка, что час входит в промежуток действия тарифа
-На входе принимает тариф и час
-Возвращает true если час входит в промежуток, false в противном случае */
+/**
+ * Возвращает true, если час входит в промежуток действия тарифа, false в противном случае
+ * @param {Object} rate тариф
+ * @param {number} hour час
+ * @returns {Boolean}
+ */
 function condition (rate, hour) {
   if (rate.from > rate.to) {
     return (hour >= rate.from && hour < MAX_HOUR) || hour < rate.to
@@ -25,8 +34,12 @@ function condition (rate, hour) {
   }
 }
 
-/* Функция увеличения счетчика.
-Если следущее значение счетчика больше 23, то счетчик обнуляется  */
+/**
+ * Возвращает инкрементированное значение переданного часа.
+ * Если следущее значение счетчика больше 23, то возвращает 0
+ * @param {number} hour час
+ * @returns {number} час, увеличенный на единицу
+ */
 function step (hour) {
   if (++hour < MAX_HOUR) {
     return hour++
@@ -35,9 +48,12 @@ function step (hour) {
   }
 }
 
-/* Функция для определения стоимости часа
-На вход принимает час, стоимость которого нужно определить и список тарифов
-На выходе возвращает стоимость часа */
+/**
+ * Возвращает стоимость часа
+ * @param {Object[]} rates массив тарифов
+ * @param {number} hour час
+ * @returns {number}
+ */
 function getRateValue (rates, hour) {
   for (let rate of rates) {
     if (condition(rate, hour)) {
@@ -46,9 +62,11 @@ function getRateValue (rates, hour) {
   }
 }
 
-/* Функция, рассчитывающая раписание работы устройств
-Принимает объект с списоком устройств, тарифы и максимальную мощность в час
-Возвращает расписание работы устройств, стоимость общей потребленной энергии и с разбивкой по устройствам */
+/**
+ * Рассчитывает и возвращает расписание работы устройств
+ * @param {{devices: Object[], rates: Object[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
+ * @returns {} расписание работы устройст, стоимость потребленной электроэнергии по устройствам и общая
+ */
 function makeSchedule (inputData) {
   const devices = inputData.devices.map((obj) => Object.assign({}, obj))
   const rates = inputData.rates.map((obj) => Object.assign({}, obj))
