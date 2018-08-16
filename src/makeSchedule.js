@@ -1,3 +1,13 @@
+/** @constant {number} */
+const MAX_HOUR = 24
+
+/** @constant {string[]} */
+const DAY_OR_NIGHT = [
+  'night', 'night', 'night', 'night', 'night', 'night', 'night',
+  'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day',
+  'night', 'night', 'night'
+]
+
 /**
  * Описание типа объекта устройство
  * @typedef device
@@ -17,16 +27,6 @@
  * @property {number} to время окончания действия тарифа
  * @property {number} value стоимость электроэнергии
  */
-
-/** @constant {number} */
-const MAX_HOUR = 24
-
-/** @constant {string[]} */
-const DAY_OR_NIGHT = [
-  'night', 'night', 'night', 'night', 'night', 'night', 'night',
-  'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day', 'day',
-  'night', 'night', 'night'
-]
 
 /**
  * Возвращает найденное устройство в массиве
