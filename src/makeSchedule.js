@@ -65,7 +65,7 @@ function getRateValue (rates, hour) {
 /**
  * Рассчитывает и возвращает расписание работы устройств
  * @param {{devices: Object[], rates: Object[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
- * @returns {} расписание работы устройст, стоимость потребленной электроэнергии по устройствам и общая
+ * @returns {} расписание работы устройств, стоимость потребленной электроэнергии по устройствам и общая
  */
 function makeSchedule (inputData) {
   const devices = inputData.devices.map((obj) => Object.assign({}, obj))
