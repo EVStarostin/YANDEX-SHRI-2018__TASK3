@@ -1,3 +1,23 @@
+/**
+ * Описание типа объекта устройство
+ * @typedef device
+ * @type {object}
+ * @property {string} id ID
+ * @property {string} name название
+ * @property {number} power потребляемая мощность
+ * @property {number} duration продолжительность цикла работы в часах
+ * @property {string} mode работает днем или ночью ('day'|'night')
+ */
+
+/**
+ * Описание типа объекта тариф
+ * @typedef rate
+ * @type {object}
+ * @property {number} from время начала действия тарифа
+ * @property {number} to время окончания действия тарифа
+ * @property {number} value стоимость электроэнергии
+ */
+
 /** @constant {number} */
 const MAX_HOUR = 24
 
@@ -10,9 +30,9 @@ const DAY_OR_NIGHT = [
 
 /**
  * Возвращает найденное устройство в массиве
- * @param {Object[]} array массив, в котором выполняется поиск
+ * @param {device[]} array массив, в котором выполняется поиск
  * @param {string} id ID устройства, которое нужно найти
- * @returns {Object} найденное устройство
+ * @returns {device} найденное устройство
  */
 function findObjectInArrayById (array, id) {
   for (let obj of array) {
@@ -22,9 +42,9 @@ function findObjectInArrayById (array, id) {
 
 /**
  * Возвращает true, если час входит в промежуток действия тарифа, false в противном случае
- * @param {Object} rate тариф
+ * @param {rate} rate тариф
  * @param {number} hour час
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function condition (rate, hour) {
   if (rate.from > rate.to) {
@@ -50,7 +70,7 @@ function step (hour) {
 
 /**
  * Возвращает стоимость часа
- * @param {Object[]} rates массив тарифов
+ * @param {rate[]} rates массив тарифов
  * @param {number} hour час
  * @returns {number}
  */
@@ -64,7 +84,7 @@ function getRateValue (rates, hour) {
 
 /**
  * Рассчитывает и возвращает расписание работы устройств
- * @param {{devices: Object[], rates: Object[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
+ * @param {{devices: device[], rates: rate[], maxPower: number}} inputData список устройств, тарифы и максимальная мощность в час
  * @returns {} расписание работы устройств, стоимость потребленной электроэнергии по устройствам и общая
  */
 function makeSchedule (inputData) {
